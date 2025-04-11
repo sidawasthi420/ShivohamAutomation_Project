@@ -45,7 +45,6 @@ public class manualTesting {
 
 	@Then("^the Manual Testing course page should be displayed$")
 	public void the_Manual_Testing_course_page_should_be_displayed() {
-		// You can use an assertion here, depending on your test framework
 		Assert.assertEquals(CheckManualTesting.getText(), "Manual Testing");
        
 	}
