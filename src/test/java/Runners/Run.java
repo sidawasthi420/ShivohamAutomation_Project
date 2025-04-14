@@ -8,7 +8,7 @@ import io.cucumber.testng.CucumberOptions;
         glue = {"StepDefinitions","Hooks"},
         //tags = "@regression",
         publish = false,
-        plugin = {"pretty", "json:target/cucumber-report.json" }
+        plugin = {"pretty", "json:target/cucumber-report.json", "html:target/cucumber-report.html" }
 
 )
 public class Run extends AbstractTestNGCucumberTests {
