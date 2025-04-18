@@ -1,7 +1,10 @@
 package StepDefinitions;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import Hooks.hook;
@@ -11,22 +14,24 @@ import io.cucumber.java.en.When;
 
 public class commonSteps {
 
-	private static WebDriver driver = hook.driver;
+	/*private static WebDriver driver = hook.driver;        
 	
 	@Given("^navigate to the url \"([^\"]*)\"$")
 	public void navigate_to_the_url(String url) {
 	    driver.get(url);
 	}
 
-	@Then("^validate that user is on home page$")
-	public void validate_that_user_is_on_home_page() {
-	    String companyName = driver.findElement(By.xpath("//a[@class='navbar-brand']/div/span[1]")).getText();
-	    Assert.assertEquals(companyName, "Shivoham Automation");
-	}
+
+    @Given("the user is on HomePage")
+    public void the_user_is_on_home_page() {
+    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    	String navbarBrand = driver.findElement(By.xpath("(//a[@href='index.html'])[1]")).getText();
+        Assert.assertEquals("Company name does not match", "Shivoham Automation", navbarBrand);
+    }
 
 	@When("^user clicks on about link$")
 	public void user_clicks_on_about_link() {
 	    driver.findElement(By.xpath("//a[text()='About']")).click();
 	}
-
+*/
 }
