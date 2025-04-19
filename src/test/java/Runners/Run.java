@@ -4,7 +4,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-        features = "src/test/resources/Features/Courses",
+        features = "src/test/resources/Features",
         glue = {"StepDefinitions","Hooks"},
         //tags = "@regression",
         publish = false,
@@ -14,3 +14,6 @@ import io.cucumber.testng.CucumberOptions;
 public class Run extends AbstractTestNGCucumberTests {
     //and or not
 }
+
+
+

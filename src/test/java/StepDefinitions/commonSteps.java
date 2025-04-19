@@ -1,7 +1,17 @@
 package StepDefinitions;
 
+import java.time.Duration;
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import Hooks.hook;
@@ -12,25 +22,119 @@ import io.cucumber.java.en.When;
 public class commonSteps {
 
 	private static WebDriver driver = hook.driver;
-	
-	@Given("^navigate to the url \"([^\"]*)\"$")
-	public void navigate_to_the_url(String url) {
-	    driver.get(url);
+
+	@FindBy(xpath = "//a[text()='Courses']")
+	private WebElement courses;
+
+	@FindBy(xpath = "//a[@class='enrollment-btn']")
+	private WebElement enrollNowButton;
+
+	@FindBy(id = "name")
+	private WebElement nameField;
+
+	@FindBy(id = "email")
+	private WebElement emailField;
+
+	@FindBy(id = "phone")
+	private WebElement phoneField;
+
+	@FindBy(id = "course")
+	private WebElement courseDropdown;
+
+	@FindBy(id = "date")
+	private WebElement dateField;
+
+	@FindBy(id = "registrationButton")
+	private WebElement registerNowButton;
+
+	public commonSteps() {
+		PageFactory.initElements(driver, this);
 	}
 
-	@Then("^validate that user is on home page$")
-	public void validate_that_user_is_on_home_page() {
-	    String companyName = driver.findElement(By.xpath("//a[@class='navbar-brand']/div/span[1]")).getText();
-	    Assert.assertEquals(companyName, "Shivoham Automation");
+	@Given("^the user launches the website \"([^\"]*)\"$")
+	public void the_user_launches_the_website(String url) {
+		driver.get(url);
+	}
+
+	@Then("^the user is on the Home page$")
+	public void the_user_is_on_the_home_page() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		String companyName = driver.findElement(By.xpath("//div[@class='web-view']/img[2]")).getAttribute("alt");
+		Assert.assertEquals(companyName, "Shivoham Automation Expert");
+
+	}
+
+	@When("^the user clicks on the Courses button$")
+	public void the_user_clicks_on_the_Courses_button() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.elementToBeClickable(courses));
+		courses.click();
+	}
+
+	@Then("^the user clicks on the Enroll Now button$")
+	public void the_user_clicks_on_the_Enroll_Now_button() {
+		Actions actions = new Actions(driver);
+		actions.moveToElement(enrollNowButton).click().build();
+		actions.perform();
+
+		String href = enrollNowButton.getAttribute("href");
+		System.out.println(href);
+		driver.get(href);
+	}
+
+	@Then("^the user enters Full Name as \"([^\"]*)\"$")
+	public void the_user_enters_full_name_as(String fullName) {
+		nameField.clear();
+		nameField.sendKeys(fullName);
+	}
+
+	@Then("^the user enters Email Address as \"([^\"]*)\"$")
+	public void the_user_enters_email_address_as(String email) {
+		emailField.clear();
+		emailField.sendKeys(email);
+	}
+
+	@Then("^the user enters Phone Number as \"([^\"]*)\"$")
+	public void the_user_enters_phone_number_as(String phone) {
+		phoneField.clear();
+		phoneField.sendKeys(phone);
+	}
+
+	@Then("^the user selects Course as \"([^\"]*)\"$")
+	public void the_user_selects_course_as(String course) {
+		Select select = new Select(courseDropdown);
+		select.selectByVisibleText(course);
+	}
+
+	@Then("^the user selects Preferred Start Date as \"([^\"]*)\"$")
+	public void the_user_selects_preferred_start_date_as(String date) {
+		dateField.clear();
+		dateField.sendKeys(date);
+	}
+
+	@Then("^the user submits the registration form$")
+	public void the_user_submits_the_registration_form() {
+		registerNowButton.click();
+	}
+
+	@Then("^the user should see pop-up with the message \"([^\"]*)\"$")
+	public void the_user_should_see__pop_up_with_the_message(String expectedMessage) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+
+		String actualMessage = alert.getText();
+		Assert.assertEquals(actualMessage, expectedMessage, "Alert message mismatch");
+	}
+
+	@Then("^the user accept the alert$")
+	public void the_user_accept_the_alert() {
+		Alert alert = driver.switchTo().alert();
+		alert.accept();
 	}
 
 	@When("^user clicks on about link$")
 	public void user_clicks_on_about_link() {
-	    driver.findElement(By.xpath("//a[text()='About']")).click();
+		driver.findElement(By.xpath("//a[text()='About']")).click();
 	}
 
 }
-
-
-
-
