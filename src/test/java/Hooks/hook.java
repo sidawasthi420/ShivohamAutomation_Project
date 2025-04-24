@@ -12,20 +12,20 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class hook {
 
 	public static WebDriver driver = null;
-	
+
 	@SuppressWarnings("deprecation")
 	@Before
-	public void launchBrowser()
-	{
-		WebDriverManager.chromedriver().setup();
-		driver = new ChromeDriver();
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+	public void launchBrowser() {
+		if (driver == null) {
+			WebDriverManager.chromedriver().setup();
+			driver = new ChromeDriver();
+			driver.manage().window().maximize();
+			driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		}
 	}
-	
+
 	@After
-	public void closeBrowser()
-	{
-		driver.quit();
+	public void closeBrowser() {
+		// driver.quit();
 	}
 }
